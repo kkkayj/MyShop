@@ -79,7 +79,7 @@
 
         <!-- Product 1 -->
         <div class="col mb-5">
-          <div class="card h-100">
+          <div class="card h-100" data-name="Classic Formal Shirt" data-price="55">
             <img class="card-img-top" src="images/1shirt.jpg" alt="Men Shirt" style="height:300px; object-fit:cover;" />
             <div class="card-body p-4">
               <div class="text-center">
@@ -99,7 +99,7 @@
 
         <!-- Product 2 -->
         <div class="col mb-5">
-          <div class="card h-100">
+          <div class="card h-100" data-name="Red Bomber Jacket" data-price="120">
             <img class="card-img-top" src="images/1jacket.jpg" alt="Men Jacket" style="height:300px; object-fit:cover;" />
             <div class="card-body p-4">
               <div class="text-center">
@@ -119,7 +119,7 @@
 
         <!-- Product 3 -->
         <div class="col mb-5">
-          <div class="card h-100">
+          <div class="card h-100" data-name="Slim Fit Jeans" data-price="85">
             <img class="card-img-top" src="images/1pants.jpg" alt="Men Pants" style="height:300px; object-fit:cover;" />
             <div class="card-body p-4">
               <div class="text-center">
@@ -139,7 +139,7 @@
 
         <!-- Product 4 -->
         <div class="col mb-5">
-          <div class="card h-100">
+          <div class="card h-100" data-name="Leather Biker Jacket" data-price="150">
             <img class="card-img-top" src="images/2jacket.jpg" alt="Men Leather Jacket" style="height:300px; object-fit:cover;" />
             <div class="card-body p-4">
               <div class="text-center">
@@ -158,7 +158,7 @@
         </div>
 <!-- Product 5 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men Polo Shirt" data-price="60">
     <img class="card-img-top" src="images/2shirt.jpg" alt="Men Polo Shirt" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -178,7 +178,7 @@
 
 <!-- Product 6 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men Chinos" data-price="90">
     <img class="card-img-top" src="images/2pants.jpg" alt="Men Chinos" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -198,7 +198,7 @@
 
 <!-- Product 7 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men Hoodie" data-price="75">
     <img class="card-img-top" src="images/3jacket.jpg" alt="Men Hoodie" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -218,7 +218,7 @@
 
 <!-- Product 8 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men Casual Shirt" data-price="65">
     <img class="card-img-top" src="images/3shirt.jpg" alt="Men Casual Shirt" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -237,7 +237,7 @@
 </div>
         <!-- Product 9 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men T-Shirt" data-price="40">
     <img class="card-img-top" src="images/4shirt.jpg" alt="Men T-Shirt" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -257,7 +257,7 @@
 
 <!-- Product 10 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men Track Pants" data-price="70">
     <img class="card-img-top" src="images/4pants.jpg" alt="Men Track Pants" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -277,7 +277,7 @@
 
 <!-- Product 11 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men Windbreaker" data-price="110">
     <img class="card-img-top" src="images/4jacket.jpg" alt="Men Windbreaker" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -297,7 +297,7 @@
 
 <!-- Product 12 -->
 <div class="col mb-5">
-  <div class="card h-100">
+  <div class="card h-100" data-name="Men Casual Polo" data-price="55">
     <img class="card-img-top" src="images/5shirt.jpg" alt="Men Casual Polo" style="height:300px; object-fit:cover;" />
     <div class="card-body p-4">
       <div class="text-center">
@@ -320,6 +320,26 @@
     </div>
   </section>
 
+   <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">Shopping Cart</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="cart-items">
+          Your cart is empty.
+        </div>
+        <div class="modal-footer">
+          <strong>Total: RM <span id="cart-total">0</span></strong>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="checkout()">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Stylemart 2025</p></div>
@@ -328,6 +348,55 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/scripts.js"></script>
+
+    <!-- Cart JS -->
+  <script>
+    const cart = [];
+    const cartCount = document.getElementById('cart-count');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function() {
+        const productCard = button.closest('.card');
+        const name = productCard.getAttribute('data-name');
+        const price = parseFloat(productCard.getAttribute('data-price'));
+        cart.push({name, price});
+        updateCart();
+      });
+    });
+
+    function updateCart() {
+      cartCount.textContent = cart.length;
+      if(cart.length === 0) {
+        cartItems.innerHTML = 'Your cart is empty.';
+        cartTotal.textContent = '0';
+        return;
+      }
+
+      let html = '<ul class="list-group">';
+      let total = 0;
+      cart.forEach((item, index) => {
+        html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                  ${item.name} - RM${item.price.toFixed(2)}
+                  <button class="btn btn-sm btn-danger" onclick="removeItem(${index})">Remove</button>
+                 </li>`;
+        total += item.price;
+      });
+      html += '</ul>';
+      cartItems.innerHTML = html;
+      cartTotal.textContent = total.toFixed(2);
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function checkout() {
+      alert('Checkout functionality not implemented yet. Total: RM' + cartTotal.textContent);
+    }
 </body>
 </html>
+
 
