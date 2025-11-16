@@ -424,28 +424,24 @@ function checkout() {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(cart)
   })
-  .then(res => res.json())
+  .then(res => res.json())  // expect JSON response
   .then(data => {
-    if(data.success && data.order_id){
-      // Clear cart
-      localStorage.removeItem("cart");
-      cart = [];
-      updateCartCount();
-      showCart();
-
-      // Redirect to payment page with order_id
-      window.location.href = "payment.html?order_id=" + data.order_id;
+    if(data.order_id){
+        // redirect to payment page with order_id
+        window.location.href = "payment.html?order_id=" + data.order_id;
     } else {
-      alert("Checkout failed: " + (data.message || "Try again"));
+        alert("Error: " + data.message);
     }
   });
 }
+
 
 </script>
 
 
 </body>
 </html>
+
 
 
 
