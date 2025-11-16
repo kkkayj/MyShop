@@ -320,25 +320,31 @@
     </div>
   </section>
 
-   <!-- Cart Modal -->
-  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cartModalLabel">Shopping Cart</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="cart-items">
-          Your cart is empty.
-        </div>
-        <div class="modal-footer">
-          <strong>Total: RM <span id="cart-total">0</span></strong>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="checkout()">Checkout</button>
-        </div>
+  <!-- Cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Your Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul class="list-group" id="cart-items"></ul>
+        <hr>
+        <h5>Total: <span id="cart-total">RM 0</span></h5>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-success" onclick="checkout()">Checkout</button>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
@@ -349,54 +355,97 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/scripts.js"></script>
 
-    <!-- Cart JS -->
-  <script>
-    const cart = [];
-    const cartCount = document.getElementById('cart-count');
-    const cartItems = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
+ <script>
+// ------------------ CART FRONTEND -----------------------
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-      button.addEventListener('click', function() {
-        const productCard = button.closest('.card');
-        const name = productCard.getAttribute('data-name');
-        const price = parseFloat(productCard.getAttribute('data-price'));
-        cart.push({name, price});
-        updateCart();
-      });
-    });
+// Update cart badge
+function updateCartCount() {
+  document.querySelector(".badge").textContent = cart.length;
+}
+updateCartCount();
 
-    function updateCart() {
-      cartCount.textContent = cart.length;
-      if(cart.length === 0) {
-        cartItems.innerHTML = 'Your cart is empty.';
-        cartTotal.textContent = '0';
-        return;
-      }
+// Add to cart click
+document.querySelectorAll(".btn-outline-dark").forEach(btn => {
+  btn.addEventListener("click", function(e) {
+    e.preventDefault();
+    let card = this.closest(".card");
 
-      let html = '<ul class="list-group">';
-      let total = 0;
-      cart.forEach((item, index) => {
-        html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-                  ${item.name} - RM${item.price.toFixed(2)}
-                  <button class="btn btn-sm btn-danger" onclick="removeItem(${index})">Remove</button>
-                 </li>`;
-        total += item.price;
-      });
-      html += '</ul>';
-      cartItems.innerHTML = html;
-      cartTotal.textContent = total.toFixed(2);
-    }
+    let item = {
+      name: card.getAttribute("data-name"),
+      price: card.getAttribute("data-price"),
+      image: card.querySelector("img").src,
+      quantity: 1
+    };
 
-    function removeItem(index) {
-      cart.splice(index, 1);
-      updateCart();
-    }
+    cart.push(item);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
 
-    function checkout() {
-      alert('Checkout functionality not implemented yet. Total: RM' + cartTotal.textContent);
-    }
+    alert(item.name + " added to cart!");
+  });
+});
+
+// Open cart modal
+document.querySelector("form button").addEventListener("click", function(e) {
+  e.preventDefault();
+  showCart();
+  let modal = new bootstrap.Modal(document.getElementById("cartModal"));
+  modal.show();
+});
+
+// Display cart items in modal
+function showCart() {
+  let cartList = document.getElementById("cart-items");
+  let totalPrice = 0;
+
+  cartList.innerHTML = "";
+  cart.forEach((item, index) => {
+    totalPrice += Number(item.price);
+
+    cartList.innerHTML += `
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>${item.name}</strong><br>
+          RM${item.price}
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="removeItem(${index})">X</button>
+      </li>
+    `;
+  });
+
+  document.getElementById("cart-total").textContent = "RM " + totalPrice;
+}
+
+// Remove item
+function removeItem(i) {
+  cart.splice(i, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  showCart();
+  updateCartCount();
+}
+
+// Send to backend
+function checkout() {
+  fetch("cart.php", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(cart)
+  })
+  .then(res => res.text())
+  .then(data => {
+    alert(data);
+    localStorage.removeItem("cart");
+    cart = [];
+    updateCartCount();
+    showCart();
+  });
+}
+</script>
+
+
 </body>
 </html>
+
 
 
