@@ -418,34 +418,35 @@ function showCart() {
 }
 
 // Remove item
-function removeItem(i) {
-  cart.splice(i, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  showCart();
-  updateCartCount();
-}
-
-// Send to backend
 function checkout() {
   fetch("cart.php", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(cart)
   })
-  .then(res => res.text())
+  .then(res => res.json())
   .then(data => {
-    alert(data);
-    localStorage.removeItem("cart");
-    cart = [];
-    updateCartCount();
-    showCart();
+    if(data.success && data.order_id){
+      // Clear cart
+      localStorage.removeItem("cart");
+      cart = [];
+      updateCartCount();
+      showCart();
+
+      // Redirect to payment page with order_id
+      window.location.href = "payment.html?order_id=" + data.order_id;
+    } else {
+      alert("Checkout failed: " + (data.message || "Try again"));
+    }
   });
 }
+
 </script>
 
 
 </body>
 </html>
+
 
 
 
